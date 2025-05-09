@@ -1,0 +1,398 @@
+[
+  {
+    "date": "09/05/2025 04:30",
+    "open": 103789.36,
+    "close": 103897.49,
+    "predictClose": 103897.49
+  },
+  {
+    "date": "09/05/2025 04:45",
+    "open": 103897.5,
+    "close": 103628.77,
+    "predictClose": 103628.77
+  },
+  {
+    "date": "09/05/2025 05:00",
+    "open": 103628.76,
+    "close": 103523.33,
+    "predictOpen": 104352.15625,
+    "predictClose": 104177.5546875,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 05:15",
+    "open": 103523.33,
+    "close": 103623.08,
+    "predictOpen": 103856.109375,
+    "predictClose": 102581.90625,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 05:30",
+    "open": 103623.08,
+    "close": 102752.3,
+    "predictOpen": 103233.640625,
+    "predictClose": 102847.2734375,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 05:45",
+    "open": 102752.3,
+    "close": 102968.25,
+    "predictOpen": 103589.296875,
+    "predictClose": 103017.5390625,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 06:00",
+    "open": 102968.25,
+    "close": 102638.22,
+    "predictOpen": 102718.828125,
+    "predictClose": 103316.71875,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 06:15",
+    "open": 102638.22,
+    "close": 102563.31,
+    "predictOpen": 102855.8203125,
+    "predictClose": 103112.671875,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 06:30",
+    "open": 102563.3,
+    "close": 102772.41,
+    "predictOpen": 102993.453125,
+    "predictClose": 101547.1015625,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 06:45",
+    "open": 102772.41,
+    "close": 102915.58,
+    "predictOpen": 102156.0703125,
+    "predictClose": 103103.390625,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 07:00",
+    "open": 102915.58,
+    "close": 103039.73,
+    "predictOpen": 103160.4375,
+    "predictClose": 102401.8125,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 07:15",
+    "open": 103039.73,
+    "close": 103095.53,
+    "predictOpen": 102068.3515625,
+    "predictClose": 102096.75,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 07:30",
+    "open": 103095.52,
+    "close": 103274.16,
+    "predictOpen": 102848.9921875,
+    "predictClose": 102948.8984375,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 07:45",
+    "open": 103274.17,
+    "close": 103371.63,
+    "predictOpen": 103126.3984375,
+    "predictClose": 103188.8671875,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 08:00",
+    "open": 103371.62,
+    "close": 103222.22,
+    "predictOpen": 103065.8125,
+    "predictClose": 103345.96875,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 08:15",
+    "open": 103222.23,
+    "close": 103051.98,
+    "predictOpen": 102854.359375,
+    "predictClose": 103307.375,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 08:30",
+    "open": 103051.98,
+    "close": 103145.68,
+    "predictOpen": 102987.265625,
+    "predictClose": 103320.1796875,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 08:45",
+    "open": 103145.68,
+    "close": 102958.31,
+    "predictOpen": 103228.3984375,
+    "predictClose": 104007.109375,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 09:00",
+    "open": 102958.31,
+    "close": 102950.9,
+    "predictOpen": 102277.8359375,
+    "predictClose": 103141.46875,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 09:15",
+    "open": 102950.9,
+    "close": 103126.36,
+    "predictOpen": 103449.0546875,
+    "predictClose": 102919.1796875,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 09:30",
+    "open": 103126.37,
+    "close": 102999.99,
+    "predictOpen": 103165.53125,
+    "predictClose": 103748.875,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 09:45",
+    "open": 103000,
+    "close": 102899.99,
+    "predictOpen": 103410.3828125,
+    "predictClose": 103321.8359375,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 10:00",
+    "open": 102899.99,
+    "close": 103149.99,
+    "predictOpen": 103021.390625,
+    "predictClose": 102914.6484375,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 10:15",
+    "open": 103150,
+    "close": 103000.52,
+    "predictOpen": 102399.3359375,
+    "predictClose": 102587.7265625,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 10:30",
+    "open": 103000.52,
+    "close": 103266.9,
+    "predictOpen": 103033.90625,
+    "predictClose": 103534.78125,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 10:45",
+    "open": 103266.9,
+    "close": 103633.5,
+    "predictOpen": 103444.6015625,
+    "predictClose": 103538.8828125,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 11:00",
+    "open": 103633.5,
+    "close": 103555.27,
+    "predictOpen": 103657.9921875,
+    "predictClose": 103919.09375,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 11:15",
+    "open": 103555.28,
+    "close": 102658.94,
+    "predictOpen": 103245.6875,
+    "predictClose": 103291.390625,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 11:30",
+    "open": 102658.94,
+    "close": 102968.25,
+    "predictOpen": 102296.6640625,
+    "predictClose": 102913.5625,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 11:45",
+    "open": 102968.25,
+    "close": 103155.99,
+    "predictOpen": 102942.6328125,
+    "predictClose": 102876.7890625,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 12:00",
+    "open": 103156,
+    "close": 103106.87,
+    "predictOpen": 103229.1875,
+    "predictClose": 103384.140625,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 12:15",
+    "open": 103106.87,
+    "close": 102878.99,
+    "predictOpen": 102855.265625,
+    "predictClose": 102581.171875,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 12:30",
+    "open": 102878.99,
+    "close": 102841.26,
+    "predictOpen": 103461.140625,
+    "predictClose": 103221.5546875,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 12:45",
+    "open": 102841.26,
+    "close": 102895.99,
+    "predictOpen": 102893.8125,
+    "predictClose": 102749.3515625,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 13:00",
+    "open": 102895.99,
+    "close": 102821.64,
+    "predictOpen": 102842.78125,
+    "predictClose": 102785.96875,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 13:15",
+    "open": 102821.64,
+    "close": 102750.62,
+    "predictOpen": 102761.6015625,
+    "predictClose": 102759.8203125,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 13:30",
+    "open": 102750.62,
+    "close": 102729.3,
+    "predictOpen": 102782.96875,
+    "predictClose": 102740.8828125,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 13:45",
+    "open": 102729.29,
+    "close": 102480.83,
+    "predictOpen": 102601.9375,
+    "predictClose": 102530.421875,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 14:00",
+    "open": 102480.83,
+    "close": 102780.34,
+    "predictOpen": 102606.2265625,
+    "predictClose": 102562.4921875,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 14:15",
+    "open": 102780.35,
+    "close": 103031.4,
+    "predictOpen": 102955.3671875,
+    "predictClose": 102894.828125,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 14:30",
+    "open": 103031.42,
+    "close": 103126,
+    "predictOpen": 103036.734375,
+    "predictClose": 103055.453125,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 14:45",
+    "open": 103126,
+    "close": 103199.99,
+    "predictOpen": 103139.25,
+    "predictClose": 103103.25,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 15:00",
+    "open": 103199.99,
+    "close": 103107.71,
+    "predictOpen": 103121.890625,
+    "predictClose": 103090.359375,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 15:15",
+    "open": 103107.7,
+    "close": 103178.93,
+    "predictOpen": 103139.015625,
+    "predictClose": 103111.875,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 15:30",
+    "open": 103178.93,
+    "close": 103317.12,
+    "predictOpen": 103252.3828125,
+    "predictClose": 103261.03125,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 15:45",
+    "open": 103317.12,
+    "close": 103176.46,
+    "predictOpen": 103261.6796875,
+    "predictClose": 103278.0859375,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 16:00",
+    "open": 103176.46,
+    "close": 103142.85,
+    "predictOpen": 103147.828125,
+    "predictClose": 103165.546875,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 16:15",
+    "open": 103142.85,
+    "close": 103000,
+    "predictOpen": 103039.328125,
+    "predictClose": 103041.359375,
+    "operation": "SELL"
+  },
+  {
+    "date": "09/05/2025 16:30",
+    "open": 103000,
+    "close": 103089.52,
+    "predictOpen": 103029.2421875,
+    "predictClose": 102994.359375,
+    "operation": "BUY"
+  },
+  {
+    "date": "09/05/2025 16:45",
+    "open": 103089.53,
+    "close": 103099.96,
+    "predictOpen": 103107.1953125,
+    "predictClose": 103037.9765625,
+    "operation": "SELL"
+  }
+]
