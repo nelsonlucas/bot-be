@@ -5,9 +5,25 @@ import { Candle, CandleDocument, Operation } from './entities/candles';
 import { binanceApi } from 'src/apis/binance';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import {EMA} from 'trading-signals';
+import yahooFinance from 'yahoo-finance2';
+
 tf.disableDeprecationWarnings();
 tf.setBackend('cpu');
 
+export type Market = {
+  adjClose: number;
+  date: string;
+  open: number;
+  high: number;
+  low: number;
+  close: number;
+  volume: number;
+}
+export type Signal= {
+  operation : 'BUY'|'SELL';
+  price: number;
+}
 @Injectable()
 export class EventsService {
   private readonly logger = new Logger(EventsService.name);
@@ -26,13 +42,23 @@ export class EventsService {
     candles: Array<Candle>;
     indexCurrentCandle: number;
   }) {
+
+    // calcular media movel
+    const ema9 = new EMA(9);
+    const ema20 = new EMA(21);
+
+    ema20.updates(candles.flatMap((item) => item.close));
+    ema9.updates(candles.flatMap((item) => item.close));
+
     // index 0 é o mesmo preco de mercado
     if (indexCurrentCandle <= 1) {
       return { close: candle.close, predictClose: candle.close };
     }
 
     // Convert candles to inputs and labels
+
     const inputs = candles.slice(0, indexCurrentCandle - 1).map((c,index,array) => {
+
 
       // candle anterior
       const prevCandle = array[index - 1] || c;
@@ -48,6 +74,7 @@ export class EventsService {
       const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close;;       // é outsideBar
       const hasGapBulish = c.open > prevCandle.close;       // tem gap de corpo de alta
       const hasGapBearish = c.open < prevCandle.close;      // tem gap de corpo de baixa
+      const ema = +(ema20.getResult()?.toFixed(2));
 
       return [
         c.open, 
@@ -61,7 +88,8 @@ export class EventsService {
         isInsideBar ? 1 : -1,
         isOutsideBar ? 1 : -1,
         hasGapBulish ? 1 : -1,
-        hasGapBearish ? 1 : -1
+        hasGapBearish ? 1 : -1,
+        ema
       ];
     }); // previsão
 
@@ -127,7 +155,7 @@ export class EventsService {
     const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close;;       // é outsideBar
     const hasGapBulish = c.open > prevCandle.close;       // tem gap de corpo de alta
     const hasGapBearish = c.open < prevCandle.close;      // tem gap de corpo de baixa
-
+    const ema = +(ema20.getResult()?.toFixed(2));
 
     const nextPrediction = model.predict(
       tf.tensor2d([
@@ -143,7 +171,8 @@ export class EventsService {
           isInsideBar ? 1 : -1,
           isOutsideBar ? 1 : -1,
           hasGapBulish ? 1 : -1,
-          hasGapBearish ? 1 : -1
+          hasGapBearish ? 1 : -1,
+          ema
         ],
       ]),
     ) as tf.Tensor;
@@ -157,6 +186,19 @@ export class EventsService {
       predictClose: predictValues?.[0]?.[1],
       predictOperation: predictValues?.[0]?.[2] > 1 ? 'BUY' : 'SELL',
     };
+  }
+
+  async getDataStock(): Promise<Market[]> {
+    try {
+      const data = await yahooFinance.historical("PETR4.SA",
+      {
+        period1: "2025-01-02",
+        period2: new Date(),
+      });
+    return data as unknown as Market[];
+    } catch (error) {
+      this.logger.error(error);
+    }
   }
 
   async syncMarketBinance({ symbol,timeframe }: { symbol?: string,timeframe?: string }) {
@@ -203,5 +245,22 @@ export class EventsService {
 
       await Promise.all(allPromises);
     }
+  }
+
+  async executeBackTest({initialBalance, signals}:{initialBalance:number,signals:Signal[]}) {
+    let balance = initialBalance;
+    let position = 0;
+
+    for (const signal of signals||[]) {
+      if(signal.operation === 'BUY' && balance > 0) {
+        position = balance / signal.price;
+        balance=0;
+      } else if(signal.operation=== "SELL" && balance > 0) {
+        balance = position * signal.price;
+        position = 0;
+      }
+    }
+    const totalBalance = balance + (position > 0 ? (position * signals[signals.length - 1].price) : 0);
+    return totalBalance;
   }
 }
