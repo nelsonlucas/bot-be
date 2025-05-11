@@ -1,0 +1,1320 @@
+{
+  "historic": [
+    {
+      "date": "2025-01-04T00:00:00.000Z",
+      "isIA": true
+    },
+    {
+      "date": "2025-01-05T00:00:00.000Z",
+      "isIA": true
+    },
+    {
+      "date": "2025-01-06T00:00:00.000Z",
+      "profit": -428,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-07T00:00:00.000Z",
+      "isIA": true
+    },
+    {
+      "date": "2025-01-08T00:00:00.000Z",
+      "profit": 244,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-09T00:00:00.000Z",
+      "profit": 1312,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-10T00:00:00.000Z",
+      "profit": 2359,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-11T00:00:00.000Z",
+      "profit": 2619,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-12T00:00:00.000Z",
+      "profit": 2551,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-13T00:00:00.000Z",
+      "profit": 2667,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-14T00:00:00.000Z",
+      "profit": 3114,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-15T00:00:00.000Z",
+      "profit": 2785,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-16T00:00:00.000Z",
+      "profit": 1637,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-17T00:00:00.000Z",
+      "profit": 636,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-20T00:00:00.000Z",
+      "profit": -251,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-26T00:00:00.000Z",
+      "profit": -3659,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-27T00:00:00.000Z",
+      "profit": -3803,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-28T00:00:00.000Z",
+      "profit": -2204,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-29T00:00:00.000Z",
+      "profit": -2093,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-30T00:00:00.000Z",
+      "profit": -1416,
+      "isIA": true
+    },
+    {
+      "date": "2025-01-31T00:00:00.000Z",
+      "profit": -2295,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-01T00:00:00.000Z",
+      "profit": -2005,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-02T00:00:00.000Z",
+      "profit": -587,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-03T00:00:00.000Z",
+      "profit": 414,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-04T00:00:00.000Z",
+      "profit": -863,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-05T00:00:00.000Z",
+      "isIA": true
+    },
+    {
+      "date": "2025-02-06T00:00:00.000Z",
+      "profit": -1333,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-07T00:00:00.000Z",
+      "isIA": true
+    },
+    {
+      "date": "2025-02-08T00:00:00.000Z",
+      "profit": 299,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-09T00:00:00.000Z",
+      "profit": 132,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-10T00:00:00.000Z",
+      "profit": -392,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-11T00:00:00.000Z",
+      "profit": -533,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-12T00:00:00.000Z",
+      "profit": -246,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-13T00:00:00.000Z",
+      "profit": 154,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-14T00:00:00.000Z",
+      "profit": 137,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-15T00:00:00.000Z",
+      "profit": -258,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-16T00:00:00.000Z",
+      "profit": -62,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-17T00:00:00.000Z",
+      "profit": 561,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-18T00:00:00.000Z",
+      "profit": 1452,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-19T00:00:00.000Z",
+      "profit": 2535,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-20T00:00:00.000Z",
+      "profit": 2678,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-21T00:00:00.000Z",
+      "profit": 2272,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-22T00:00:00.000Z",
+      "profit": 2375,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-23T00:00:00.000Z",
+      "profit": 2445,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-24T00:00:00.000Z",
+      "profit": 2760,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-25T00:00:00.000Z",
+      "profit": 3916,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-26T00:00:00.000Z",
+      "profit": 5484,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-27T00:00:00.000Z",
+      "profit": 5734,
+      "isIA": true
+    },
+    {
+      "date": "2025-02-28T00:00:00.000Z",
+      "profit": 5883,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-01T00:00:00.000Z",
+      "profit": 5784,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-02T00:00:00.000Z",
+      "profit": 5048,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-03T00:00:00.000Z",
+      "profit": 3552,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-04T00:00:00.000Z",
+      "profit": 3707,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-05T00:00:00.000Z",
+      "profit": 5443,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-06T00:00:00.000Z",
+      "profit": 5075,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-07T00:00:00.000Z",
+      "profit": 5050,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-08T00:00:00.000Z",
+      "profit": 5443,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-09T00:00:00.000Z",
+      "profit": 5916,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-10T00:00:00.000Z",
+      "profit": 6713,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-11T00:00:00.000Z",
+      "profit": 7413,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-12T00:00:00.000Z",
+      "profit": 7329,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-13T00:00:00.000Z",
+      "profit": 6956,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-14T00:00:00.000Z",
+      "profit": 7190,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-15T00:00:00.000Z",
+      "profit": 6590,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-16T00:00:00.000Z",
+      "profit": 6147,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-17T00:00:00.000Z",
+      "profit": 6668,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-18T00:00:00.000Z",
+      "profit": 6782,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-19T00:00:00.000Z",
+      "profit": 7072,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-20T00:00:00.000Z",
+      "profit": 6293,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-21T00:00:00.000Z",
+      "profit": 6533,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-22T00:00:00.000Z",
+      "profit": 6817,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-23T00:00:00.000Z",
+      "profit": 6668,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-24T00:00:00.000Z",
+      "profit": 6421,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-25T00:00:00.000Z",
+      "profit": 5647,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-26T00:00:00.000Z",
+      "profit": 5307,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-27T00:00:00.000Z",
+      "profit": 5640,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-28T00:00:00.000Z",
+      "profit": 5834,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-29T00:00:00.000Z",
+      "profit": 6416,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-30T00:00:00.000Z",
+      "profit": 7051,
+      "isIA": true
+    },
+    {
+      "date": "2025-03-31T00:00:00.000Z",
+      "profit": 7148,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-01T00:00:00.000Z",
+      "profit": 7098,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-02T00:00:00.000Z",
+      "profit": 6938,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-03T00:00:00.000Z",
+      "profit": 7169,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-04T00:00:00.000Z",
+      "profit": 8026,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-05T00:00:00.000Z",
+      "profit": 7539,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-06T00:00:00.000Z",
+      "profit": 7585,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-07T00:00:00.000Z",
+      "profit": 8411,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-08T00:00:00.000Z",
+      "profit": 9111,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-09T00:00:00.000Z",
+      "profit": 8918,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-10T00:00:00.000Z",
+      "profit": 8465,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-11T00:00:00.000Z",
+      "profit": 8278,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-12T00:00:00.000Z",
+      "profit": 7845,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-13T00:00:00.000Z",
+      "profit": 6698,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-14T00:00:00.000Z",
+      "profit": 6775,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-15T00:00:00.000Z",
+      "profit": 6572,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-16T00:00:00.000Z",
+      "profit": 6759,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-17T00:00:00.000Z",
+      "profit": 6535,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-18T00:00:00.000Z",
+      "profit": 6275,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-19T00:00:00.000Z",
+      "profit": 6324,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-20T00:00:00.000Z",
+      "profit": 5741,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-21T00:00:00.000Z",
+      "profit": 5931,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-22T00:00:00.000Z",
+      "profit": 5909,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-23T00:00:00.000Z",
+      "profit": 4920,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-24T00:00:00.000Z",
+      "profit": 4539,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-25T00:00:00.000Z",
+      "profit": 4492,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-26T00:00:00.000Z",
+      "profit": 4471,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-27T00:00:00.000Z",
+      "profit": 4807,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-28T00:00:00.000Z",
+      "profit": 4861,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-29T00:00:00.000Z",
+      "profit": 4799,
+      "isIA": true
+    },
+    {
+      "date": "2025-04-30T00:00:00.000Z",
+      "profit": 5074,
+      "isIA": true
+    },
+    {
+      "date": "2025-05-01T00:00:00.000Z",
+      "profit": 5032,
+      "isIA": true
+    },
+    {
+      "date": "2025-05-02T00:00:00.000Z",
+      "profit": 4470,
+      "isIA": true
+    },
+    {
+      "date": "2025-05-03T00:00:00.000Z",
+      "profit": 4863,
+      "isIA": true
+    },
+    {
+      "date": "2025-05-04T00:00:00.000Z",
+      "profit": 4904,
+      "isIA": true
+    },
+    {
+      "date": "2025-05-05T00:00:00.000Z",
+      "profit": 5158,
+      "isIA": true
+    },
+    {
+      "date": "2025-05-06T00:00:00.000Z",
+      "profit": 5019,
+      "isIA": true
+    },
+    {
+      "date": "2025-05-07T00:00:00.000Z",
+      "profit": 4993,
+      "isIA": true
+    },
+    {
+      "date": "2025-05-08T00:00:00.000Z",
+      "profit": 4835,
+      "isIA": true
+    },
+    {
+      "date": "2025-05-09T00:00:00.000Z",
+      "profit": 3905,
+      "isIA": true
+    }
+  ],
+  "calculated": {
+    "LucroMarket": 471272,
+    "LucroIA": 469040
+  },
+  "output": [
+    {
+      "LucroMarket": 0,
+      "LucroIA": 0
+    },
+    {
+      "LucroMarket": -323,
+      "LucroIA": -428
+    },
+    {
+      "LucroMarket": 0,
+      "LucroIA": 0
+    },
+    {
+      "LucroMarket": 1116,
+      "LucroIA": 244
+    },
+    {
+      "LucroMarket": 1583,
+      "LucroIA": 1312
+    },
+    {
+      "LucroMarket": 2836,
+      "LucroIA": 2359
+    },
+    {
+      "LucroMarket": 2581,
+      "LucroIA": 2619
+    },
+    {
+      "LucroMarket": 2539,
+      "LucroIA": 2551
+    },
+    {
+      "LucroMarket": 2483,
+      "LucroIA": 2667
+    },
+    {
+      "LucroMarket": 3055,
+      "LucroIA": 3114
+    },
+    {
+      "LucroMarket": 2589,
+      "LucroIA": 2785
+    },
+    {
+      "LucroMarket": 748,
+      "LucroIA": 1637
+    },
+    {
+      "LucroMarket": 216,
+      "LucroIA": 636
+    },
+    {
+      "LucroMarket": -623,
+      "LucroIA": -251
+    },
+    {
+      "LucroMarket": -2886,
+      "LucroIA": -3659
+    },
+    {
+      "LucroMarket": -2749,
+      "LucroIA": -3803
+    },
+    {
+      "LucroMarket": -2168,
+      "LucroIA": -2204
+    },
+    {
+      "LucroMarket": -1381,
+      "LucroIA": -2093
+    },
+    {
+      "LucroMarket": -1455,
+      "LucroIA": -1416
+    },
+    {
+      "LucroMarket": -2563,
+      "LucroIA": -2295
+    },
+    {
+      "LucroMarket": -1825,
+      "LucroIA": -2005
+    },
+    {
+      "LucroMarket": -40,
+      "LucroIA": -587
+    },
+    {
+      "LucroMarket": 1027,
+      "LucroIA": 414
+    },
+    {
+      "LucroMarket": 276,
+      "LucroIA": -863
+    },
+    {
+      "LucroMarket": 0,
+      "LucroIA": 0
+    },
+    {
+      "LucroMarket": -2016,
+      "LucroIA": -1333
+    },
+    {
+      "LucroMarket": 0,
+      "LucroIA": 0
+    },
+    {
+      "LucroMarket": 379,
+      "LucroIA": 299
+    },
+    {
+      "LucroMarket": -361,
+      "LucroIA": 132
+    },
+    {
+      "LucroMarket": -451,
+      "LucroIA": -392
+    },
+    {
+      "LucroMarket": -437,
+      "LucroIA": -533
+    },
+    {
+      "LucroMarket": -199,
+      "LucroIA": -246
+    },
+    {
+      "LucroMarket": -78,
+      "LucroIA": 154
+    },
+    {
+      "LucroMarket": 153,
+      "LucroIA": 137
+    },
+    {
+      "LucroMarket": -395,
+      "LucroIA": -258
+    },
+    {
+      "LucroMarket": 151,
+      "LucroIA": -62
+    },
+    {
+      "LucroMarket": 750,
+      "LucroIA": 561
+    },
+    {
+      "LucroMarket": 1830,
+      "LucroIA": 1452
+    },
+    {
+      "LucroMarket": 2691,
+      "LucroIA": 2535
+    },
+    {
+      "LucroMarket": 2698,
+      "LucroIA": 2678
+    },
+    {
+      "LucroMarket": 1994,
+      "LucroIA": 2272
+    },
+    {
+      "LucroMarket": 2710,
+      "LucroIA": 2375
+    },
+    {
+      "LucroMarket": 2383,
+      "LucroIA": 2445
+    },
+    {
+      "LucroMarket": 2795,
+      "LucroIA": 2760
+    },
+    {
+      "LucroMarket": 5400,
+      "LucroIA": 3916
+    },
+    {
+      "LucroMarket": 5188,
+      "LucroIA": 5484
+    },
+    {
+      "LucroMarket": 6116,
+      "LucroIA": 5734
+    },
+    {
+      "LucroMarket": 5837,
+      "LucroIA": 5883
+    },
+    {
+      "LucroMarket": 4796,
+      "LucroIA": 5784
+    },
+    {
+      "LucroMarket": 5231,
+      "LucroIA": 5048
+    },
+    {
+      "LucroMarket": 1749,
+      "LucroIA": 3552
+    },
+    {
+      "LucroMarket": 5397,
+      "LucroIA": 3707
+    },
+    {
+      "LucroMarket": 5107,
+      "LucroIA": 5443
+    },
+    {
+      "LucroMarket": 4972,
+      "LucroIA": 5075
+    },
+    {
+      "LucroMarket": 5263,
+      "LucroIA": 5050
+    },
+    {
+      "LucroMarket": 5678,
+      "LucroIA": 5443
+    },
+    {
+      "LucroMarket": 5905,
+      "LucroIA": 5916
+    },
+    {
+      "LucroMarket": 6955,
+      "LucroIA": 6713
+    },
+    {
+      "LucroMarket": 7770,
+      "LucroIA": 7413
+    },
+    {
+      "LucroMarket": 7073,
+      "LucroIA": 7329
+    },
+    {
+      "LucroMarket": 6941,
+      "LucroIA": 6956
+    },
+    {
+      "LucroMarket": 7270,
+      "LucroIA": 7190
+    },
+    {
+      "LucroMarket": 6268,
+      "LucroIA": 6590
+    },
+    {
+      "LucroMarket": 6008,
+      "LucroIA": 6147
+    },
+    {
+      "LucroMarket": 7000,
+      "LucroIA": 6668
+    },
+    {
+      "LucroMarket": 6783,
+      "LucroIA": 6782
+    },
+    {
+      "LucroMarket": 7068,
+      "LucroIA": 7072
+    },
+    {
+      "LucroMarket": 6042,
+      "LucroIA": 6293
+    },
+    {
+      "LucroMarket": 6849,
+      "LucroIA": 6533
+    },
+    {
+      "LucroMarket": 6756,
+      "LucroIA": 6817
+    },
+    {
+      "LucroMarket": 6751,
+      "LucroIA": 6668
+    },
+    {
+      "LucroMarket": 6339,
+      "LucroIA": 6421
+    },
+    {
+      "LucroMarket": 5512,
+      "LucroIA": 5647
+    },
+    {
+      "LucroMarket": 5217,
+      "LucroIA": 5307
+    },
+    {
+      "LucroMarket": 5870,
+      "LucroIA": 5640
+    },
+    {
+      "LucroMarket": 5764,
+      "LucroIA": 5834
+    },
+    {
+      "LucroMarket": 6657,
+      "LucroIA": 6416
+    },
+    {
+      "LucroMarket": 7140,
+      "LucroIA": 7051
+    },
+    {
+      "LucroMarket": 7135,
+      "LucroIA": 7148
+    },
+    {
+      "LucroMarket": 7130,
+      "LucroIA": 7098
+    },
+    {
+      "LucroMarket": 6931,
+      "LucroIA": 6938
+    },
+    {
+      "LucroMarket": 7823,
+      "LucroIA": 7169
+    },
+    {
+      "LucroMarket": 7893,
+      "LucroIA": 8026
+    },
+    {
+      "LucroMarket": 7320,
+      "LucroIA": 7539
+    },
+    {
+      "LucroMarket": 7573,
+      "LucroIA": 7585
+    },
+    {
+      "LucroMarket": 9028,
+      "LucroIA": 8411
+    },
+    {
+      "LucroMarket": 8909,
+      "LucroIA": 9111
+    },
+    {
+      "LucroMarket": 9048,
+      "LucroIA": 8918
+    },
+    {
+      "LucroMarket": 7693,
+      "LucroIA": 8465
+    },
+    {
+      "LucroMarket": 8319,
+      "LucroIA": 8278
+    },
+    {
+      "LucroMarket": 7446,
+      "LucroIA": 7845
+    },
+    {
+      "LucroMarket": 6373,
+      "LucroIA": 6698
+    },
+    {
+      "LucroMarket": 6741,
+      "LucroIA": 6775
+    },
+    {
+      "LucroMarket": 6668,
+      "LucroIA": 6572
+    },
+    {
+      "LucroMarket": 6973,
+      "LucroIA": 6759
+    },
+    {
+      "LucroMarket": 6454,
+      "LucroIA": 6535
+    },
+    {
+      "LucroMarket": 6129,
+      "LucroIA": 6275
+    },
+    {
+      "LucroMarket": 6192,
+      "LucroIA": 6324
+    },
+    {
+      "LucroMarket": 5624,
+      "LucroIA": 5741
+    },
+    {
+      "LucroMarket": 5822,
+      "LucroIA": 5931
+    },
+    {
+      "LucroMarket": 5929,
+      "LucroIA": 5909
+    },
+    {
+      "LucroMarket": 4725,
+      "LucroIA": 4920
+    },
+    {
+      "LucroMarket": 4484,
+      "LucroIA": 4539
+    },
+    {
+      "LucroMarket": 4369,
+      "LucroIA": 4492
+    },
+    {
+      "LucroMarket": 4507,
+      "LucroIA": 4471
+    },
+    {
+      "LucroMarket": 4670,
+      "LucroIA": 4807
+    },
+    {
+      "LucroMarket": 4774,
+      "LucroIA": 4861
+    },
+    {
+      "LucroMarket": 4818,
+      "LucroIA": 4799
+    },
+    {
+      "LucroMarket": 4956,
+      "LucroIA": 5074
+    },
+    {
+      "LucroMarket": 4835,
+      "LucroIA": 5032
+    },
+    {
+      "LucroMarket": 4514,
+      "LucroIA": 4470
+    },
+    {
+      "LucroMarket": 4794,
+      "LucroIA": 4863
+    },
+    {
+      "LucroMarket": 4919,
+      "LucroIA": 4904
+    },
+    {
+      "LucroMarket": 5201,
+      "LucroIA": 5158
+    },
+    {
+      "LucroMarket": 4929,
+      "LucroIA": 5019
+    },
+    {
+      "LucroMarket": 4922,
+      "LucroIA": 4993
+    },
+    {
+      "LucroMarket": 4878,
+      "LucroIA": 4835
+    },
+    {
+      "LucroMarket": 3203,
+      "LucroIA": 3905
+    },
+    {
+      "LucroMarket": 2316,
+      "LucroIA": 2616
+    }
+  ],
+  "profits": {
+    "lucroIA": [
+      0,
+      -428,
+      0,
+      244,
+      1312,
+      2359,
+      2619,
+      2551,
+      2667,
+      3114,
+      2785,
+      1637,
+      636,
+      -251,
+      -3659,
+      -3803,
+      -2204,
+      -2093,
+      -1416,
+      -2295,
+      -2005,
+      -587,
+      414,
+      -863,
+      0,
+      -1333,
+      0,
+      299,
+      132,
+      -392,
+      -533,
+      -246,
+      154,
+      137,
+      -258,
+      -62,
+      561,
+      1452,
+      2535,
+      2678,
+      2272,
+      2375,
+      2445,
+      2760,
+      3916,
+      5484,
+      5734,
+      5883,
+      5784,
+      5048,
+      3552,
+      3707,
+      5443,
+      5075,
+      5050,
+      5443,
+      5916,
+      6713,
+      7413,
+      7329,
+      6956,
+      7190,
+      6590,
+      6147,
+      6668,
+      6782,
+      7072,
+      6293,
+      6533,
+      6817,
+      6668,
+      6421,
+      5647,
+      5307,
+      5640,
+      5834,
+      6416,
+      7051,
+      7148,
+      7098,
+      6938,
+      7169,
+      8026,
+      7539,
+      7585,
+      8411,
+      9111,
+      8918,
+      8465,
+      8278,
+      7845,
+      6698,
+      6775,
+      6572,
+      6759,
+      6535,
+      6275,
+      6324,
+      5741,
+      5931,
+      5909,
+      4920,
+      4539,
+      4492,
+      4471,
+      4807,
+      4861,
+      4799,
+      5074,
+      5032,
+      4470,
+      4863,
+      4904,
+      5158,
+      5019,
+      4993,
+      4835,
+      3905,
+      2616
+    ],
+    "lucroMarket": [
+      0,
+      -323,
+      0,
+      1116,
+      1583,
+      2836,
+      2581,
+      2539,
+      2483,
+      3055,
+      2589,
+      748,
+      216,
+      -623,
+      -2886,
+      -2749,
+      -2168,
+      -1381,
+      -1455,
+      -2563,
+      -1825,
+      -40,
+      1027,
+      276,
+      0,
+      -2016,
+      0,
+      379,
+      -361,
+      -451,
+      -437,
+      -199,
+      -78,
+      153,
+      -395,
+      151,
+      750,
+      1830,
+      2691,
+      2698,
+      1994,
+      2710,
+      2383,
+      2795,
+      5400,
+      5188,
+      6116,
+      5837,
+      4796,
+      5231,
+      1749,
+      5397,
+      5107,
+      4972,
+      5263,
+      5678,
+      5905,
+      6955,
+      7770,
+      7073,
+      6941,
+      7270,
+      6268,
+      6008,
+      7000,
+      6783,
+      7068,
+      6042,
+      6849,
+      6756,
+      6751,
+      6339,
+      5512,
+      5217,
+      5870,
+      5764,
+      6657,
+      7140,
+      7135,
+      7130,
+      6931,
+      7823,
+      7893,
+      7320,
+      7573,
+      9028,
+      8909,
+      9048,
+      7693,
+      8319,
+      7446,
+      6373,
+      6741,
+      6668,
+      6973,
+      6454,
+      6129,
+      6192,
+      5624,
+      5822,
+      5929,
+      4725,
+      4484,
+      4369,
+      4507,
+      4670,
+      4774,
+      4818,
+      4956,
+      4835,
+      4514,
+      4794,
+      4919,
+      5201,
+      4929,
+      4922,
+      4878,
+      3203,
+      2316
+    ]
+  }
+}

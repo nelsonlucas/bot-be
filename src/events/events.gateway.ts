@@ -136,7 +136,7 @@ export class EventsGateway {
       }
 
       return {
-        x: new Date(item.openTime).toUTCString(),
+        x: new Date(item.date).toUTCString(),
         open: item.open,
         high: item.high,
         low: item.low,

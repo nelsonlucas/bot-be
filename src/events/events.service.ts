@@ -7,9 +7,9 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import {EMA} from 'trading-signals';
 import yahooFinance from 'yahoo-finance2';
+import axios from 'axios';
 
 tf.disableDeprecationWarnings();
-tf.setBackend('cpu');
 
 export type Market = {
   adjClose: number;
@@ -43,12 +43,7 @@ export class EventsService {
     indexCurrentCandle: number;
   }) {
 
-    // calcular media movel
-    const ema9 = new EMA(9);
-    const ema20 = new EMA(21);
-
-    ema20.updates(candles.flatMap((item) => item.close));
-    ema9.updates(candles.flatMap((item) => item.close));
+    await tf.setBackend('cpu');
 
     // index 0 é o mesmo preco de mercado
     if (indexCurrentCandle <= 1) {
@@ -57,51 +52,51 @@ export class EventsService {
 
     // Convert candles to inputs and labels
 
-    const inputs = candles.slice(0, indexCurrentCandle - 1).map((c,index,array) => {
-
-
-      // candle anterior
-      const prevCandle = array[index - 1] || c;
-
-      // parametros padroes
-      const range = c.high - c.low;
-      const body = Number(Math.abs(c.close - c.open).toFixed(2));
-      const isBullish = c.close > c.open;
-
-      // parametros al brooks
-      const weightBody = Number((body / range).toFixed(2));  // forca do corpo
-      const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low; // é insideBar
-      const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close;;       // é outsideBar
-      const hasGapBulish = c.open > prevCandle.close;       // tem gap de corpo de alta
-      const hasGapBearish = c.open < prevCandle.close;      // tem gap de corpo de baixa
-      const ema = +(ema20.getResult()?.toFixed(2));
-
-      return [
-        c.open, 
-        c.high, 
-        c.low, 
-        c.close,
-        c.volume,
-        weightBody,
-        isBullish ? 1 : -1, 
-        body,
-        isInsideBar ? 1 : -1,
-        isOutsideBar ? 1 : -1,
-        hasGapBulish ? 1 : -1,
-        hasGapBearish ? 1 : -1,
-        ema
-      ];
-    }); // previsão
-
-    const labels = candles
+    const inputs = candles
       .slice(0, indexCurrentCandle - 1)
-      .map((c) => {
+      .map((c, index, array) => {
+        // candle anterior
+        const prevCandle = array[index - 1] || c;
+
+        // parametros padroes
+        const range = c.high - c.low;
+        const body = Number(Math.abs(c.close - c.open).toFixed(2));
         const isBullish = c.close > c.open;
+
+        // parametros al brooks
+        const weightBody = Number((body / range).toFixed(2)); // forca do corpo
+        const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low; // é insideBar
+        const isOutsideBar =
+          c.high > prevCandle.high && c.low < prevCandle.close; // é outsideBar
+        const hasGapBulish = c.open > prevCandle.close; // tem gap de corpo de alta
+        const hasGapBearish = c.open < prevCandle.close; // tem gap de corpo de baixa
+        // const ema = +(ema20.getResult()?.toFixed(2));
+
         return [
-          c.open, 
-          c.close,
+          Number(c.open.toFixed(2)),
+          Number(c.high.toFixed(2)),
+          Number(c.low.toFixed(2)),
+          Number(c.close.toFixed(2)),
+          weightBody,
           isBullish ? 1 : -1,
-        ]});
+          // body,
+          isInsideBar ? 1 : -1,
+          isOutsideBar ? 1 : -1,
+          hasGapBulish ? 1 : -1,
+          hasGapBearish ? 1 : -1,
+          // ema
+        ];
+      }); // previsão
+
+    // const labels = candles
+    //   .slice(0, indexCurrentCandle - 1)
+    //   .map((c) => {
+    //     const isBullish = c.close > c.open;
+    //     return [
+    //       c.close,
+    //       isBullish ? 1 : -1,
+    //     ]});
+    const labels = inputs.map((c: any) => [c?.[3], c?.[5]]);
 
     const inputTensor = tf.tensor2d(inputs);
     const labelTensor = tf.tensor2d(labels);
@@ -150,29 +145,25 @@ export class EventsService {
     const isBullish = c.close > c.open;
 
     // parametros al brooks
-    const weightBody = Number((body / range).toFixed(2));  // forca do corpo
+    const weightBody = Number((body / range).toFixed(2)); // forca do corpo
     const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low; // é insideBar
-    const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close;;       // é outsideBar
-    const hasGapBulish = c.open > prevCandle.close;       // tem gap de corpo de alta
-    const hasGapBearish = c.open < prevCandle.close;      // tem gap de corpo de baixa
-    const ema = +(ema20.getResult()?.toFixed(2));
+    const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close; // é outsideBar
+    const hasGapBulish = c.open > prevCandle.close; // tem gap de corpo de alta
+    const hasGapBearish = c.open < prevCandle.close; // tem gap de corpo de baixa
 
     const nextPrediction = model.predict(
       tf.tensor2d([
         [
-          c.open,
-          c.high,
-          c.low,
-          c.close,
-          c.volume,
+          Number(c.open.toFixed(2)),
+          Number(c.high.toFixed(2)),
+          Number(c.low.toFixed(2)),
+          Number(c.close.toFixed(2)),
           weightBody,
-          isBullish ? 1 : -1, 
-          body,
+          isBullish ? 1 : -1,
           isInsideBar ? 1 : -1,
           isOutsideBar ? 1 : -1,
           hasGapBulish ? 1 : -1,
           hasGapBearish ? 1 : -1,
-          ema
         ],
       ]),
     ) as tf.Tensor;
@@ -182,26 +173,38 @@ export class EventsService {
     const predictValues: any = await nextPrediction.array();
 
     return {
-      predictOpen: predictValues?.[0]?.[0],
-      predictClose: predictValues?.[0]?.[1],
-      predictOperation: predictValues?.[0]?.[2] > 1 ? 'BUY' : 'SELL',
+      predictClose: predictValues?.[0]?.[0] || 0,
+      predictOperation: predictValues?.[0]?.[1] > 1 ? 'BUY' : 'SELL',
     };
   }
 
-  async getDataStock(): Promise<Market[]> {
+  async getDataStock({
+    symbol,
+    period1,
+    period2,
+  }: {
+    symbol?: string;
+    period1?: string;
+    period2?: string;
+  }): Promise<Market[]> {
     try {
-      const data = await yahooFinance.historical("PETR4.SA",
-      {
-        period1: "2025-01-02",
-        period2: new Date(),
+      const data = await yahooFinance.historical(symbol, {
+        period1,
+        period2,
       });
-    return data as unknown as Market[];
+      return data as unknown as Market[];
     } catch (error) {
       this.logger.error(error);
     }
   }
 
-  async syncMarketBinance({ symbol,timeframe }: { symbol?: string,timeframe?: string }) {
+  async syncMarketBinance({
+    symbol,
+    timeframe,
+  }: {
+    symbol?: string;
+    timeframe?: string;
+  }) {
     let allSymbol = [symbol];
     if (!symbol) {
       const { data } = await binanceApi.get(`v3/exchangeInfo`);
@@ -247,20 +250,240 @@ export class EventsService {
     }
   }
 
-  async executeBackTest({initialBalance, signals}:{initialBalance:number,signals:Signal[]}) {
-    let balance = initialBalance;
-    let position = 0;
+  async executeBackTest({ lote, typeOperation, price, currentOperation }) {
+    // verifica se tem operacao em aberto e ela é identica a operacao atual
+    if (currentOperation.operationType === typeOperation) {
+      // calculo do lucro que oscila, ou seja, enquanto a ordem estiver aberta
+      const floatProfit = +(
+        (price - currentOperation.openPrice) *
+        currentOperation.lote
+      ).toFixed(2);
 
-    for (const signal of signals||[]) {
-      if(signal.operation === 'BUY' && balance > 0) {
-        position = balance / signal.price;
-        balance=0;
-      } else if(signal.operation=== "SELL" && balance > 0) {
-        balance = position * signal.price;
-        position = 0;
-      }
+      return { ...currentOperation, floatProfit };
     }
-    const totalBalance = balance + (position > 0 ? (position * signals[signals.length - 1].price) : 0);
-    return totalBalance;
+
+    let objCurrentOperation = {} as any;
+    if (
+      (Object.keys(currentOperation).length === 0 ||
+        currentOperation?.status === 'CLOSE') &&
+      typeOperation === 'BUY'
+    ) {
+      // definir como compra
+      objCurrentOperation.operationType = typeOperation;
+      objCurrentOperation.openPrice = price;
+      objCurrentOperation.lote = lote;
+      objCurrentOperation.status = 'OPEN';
+      objCurrentOperation.totalOperation = Number(price * lote);
+    } else if (
+      (Object.keys(currentOperation).length === 0 ||
+        currentOperation?.status === 'CLOSE') &&
+      typeOperation === 'SELL'
+    ) {
+      // definir como venda
+      objCurrentOperation.operationType = typeOperation;
+      objCurrentOperation.openPrice = price;
+      objCurrentOperation.lote = lote;
+      objCurrentOperation.status = 'OPEN';
+      objCurrentOperation.totalOperation = Number(price * lote);
+    } else if (
+      currentOperation?.status === 'OPEN' &&
+      typeOperation === 'SELL'
+    ) {
+      // calculo lucro
+      const profit = +(
+        (price - currentOperation.openPrice) *
+        currentOperation.lote
+      ).toFixed(2);
+
+      // fechar operacao
+      objCurrentOperation.status = 'CLOSE';
+      objCurrentOperation.profit = profit;
+    }
+
+    // verificar se a operacao atual é venda
+    return objCurrentOperation;
+  }
+
+  async executeBackTest2({ lote, typeOperation, price, currentOperation }) {
+    // Operação em aberto e do mesmo tipo: apenas lucro flutuante
+    if (
+      currentOperation.status === 'OPEN' &&
+      currentOperation.operationType === typeOperation
+    ) {
+      const floatProfit = +(
+        (typeOperation === 'BUY'
+          ? price - currentOperation.openPrice
+          : currentOperation.openPrice - price) * currentOperation.lote
+      ).toFixed(2);
+
+      return { ...currentOperation, profit: floatProfit };
+    }
+
+    // Abrir nova operação se nenhuma está aberta
+    if (!currentOperation.status || currentOperation.status === 'CLOSE') {
+      return {
+        operationType: typeOperation,
+        openPrice: price,
+        lote,
+        status: 'OPEN',
+        totalOperation: +(price * lote).toFixed(2),
+      };
+    }
+
+    // Fechar operação existente
+    if (
+      currentOperation.status === 'OPEN' &&
+      currentOperation.operationType !== typeOperation
+    ) {
+      const profit = +(
+        (currentOperation.operationType === 'SELL'
+          ? price - currentOperation.openPrice
+          : currentOperation.openPrice - price) * currentOperation.lote
+      ).toFixed(2);
+      // const profit = +((price - currentOperation.openPrice) * currentOperation.lote).toFixed(2);
+
+      return {
+        ...currentOperation,
+        status: 'CLOSE',
+        closePrice: price,
+        profit,
+      };
+    }
+
+    // Caso nenhuma das condições seja atendida, retorne a operação atual
+    return currentOperation;
+  }
+
+  async processar() {
+    const listAtivos = [
+      // 'ALOS3',
+      // 'ABEV3',
+      // 'ASAI3',
+      // 'AURE3',
+      'AZUL4',
+      'AZZA3',
+      'B3SA3',
+      'BBSE3',
+      'BBDC3',
+      'BBDC4',
+      'BRAP4',
+      'BBAS3',
+      'BRKM5',
+      'BRAV3',
+      'BRFS3',
+      'BPAC11',
+      'CXSE3',
+      'CRFB3',
+      'CMIG4',
+      'COGN3',
+      'CPLE6',
+      'CSAN3',
+      'CPFE3',
+      'CMIN3',
+      'CVCB3',
+      'CYRE3',
+      'DIRR3',
+      'ELET3',
+      'ELET6',
+      'EMBR3',
+      'ENGI11',
+      'ENEV3',
+      'EGIE3',
+      'EQTL3',
+      'FLRY3',
+      'GGBR4',
+      'GOAU4',
+      'NTCO3',
+      'HAPV3',
+      'HYPE3',
+      'IGTI11',
+      'IRBR3',
+      'ISAE4',
+      'ITSA4',
+      'ITUB4',
+      'JBSS3',
+      'KLBN11',
+      'RENT3',
+      'LREN3',
+      'MGLU3',
+      'POMO4',
+      'MRFG3',
+      'BEEF3',
+      'MOTV3',
+      'MRVE3',
+      'MULT3',
+      'PCAR3',
+      'PETR3',
+      'PETR4',
+      'RECV3',
+      'PRIO3',
+      'PETZ3',
+      'PSSA3',
+      'RADL3',
+      'RAIZ4',
+      'RDOR3',
+      'RAIL3',
+      'SBSP3',
+      'SANB11',
+      'STBP3',
+      'SMTO3',
+      'CSNA3',
+      'SLCE3',
+      'SMFT3',
+      'SUZB3',
+      'TAEE11',
+      'VIVT3',
+      'TIMS3',
+      'TOTS3',
+      'UGPA3',
+      'USIM5',
+      'VALE3',
+      'VAMO3',
+      'VBBR3',
+      'VIVA3',
+      'WEGE3',
+    ];
+
+    // for (const ativo of listAtivos) {
+
+    //   const candles = await this.getDataStock({
+    //     symbol: `${ativo}.SA`,
+    //     period1: '2025-01-02',
+    //     period2:  "2025-05-10",
+    //   });
+  
+    //   for (const candle of candles || []) {
+    //     await this.candleModel.findOneAndUpdate(
+    //       {
+    //        symbol: ativo,
+    //        timeframe: `D`,
+    //        date: candle.date,
+    //       },
+    //       {
+    //         open: candle.open,
+    //         high: candle.high,
+    //         low: candle.low,
+    //         close: candle.close,
+    //         volume: candle.volume,
+    //       },
+    //       {
+    //         upsert: true,
+    //         new: true,
+    //       },
+    //     );
+    //   }
+      
+    // }
+    // this.logger.verbose('FIM');
+
+    for (const ativo of listAtivos) {
+      const symbol= `${ativo}`;
+      this.logger.verbose(`Iniciando o processamento de predicao para o ativo ${symbol}`);
+      await axios.post(`https://cfe6-177-39-126-184.ngrok-free.app/events/predict`,{
+        symbol
+      });
+      this.logger.verbose(`Processamento finalizado`);
+    }
+    this.logger.verbose('FIM DO PROCESSAMENTO GLOBAL');
   }
 }

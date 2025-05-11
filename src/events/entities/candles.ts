@@ -9,7 +9,7 @@ export class Candle {
   @Prop()
   timeframe: string;
   @Prop()
-  openTime: Date;
+  date: Date;
   @Prop()
   open: number;
   @Prop()
