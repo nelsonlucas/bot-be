@@ -64,7 +64,7 @@ export class EventsService {
         const isBullish = c.close > c.open;
 
         // parametros al brooks
-        const weightBody = Number((body / range).toFixed(2)); // forca do corpo
+        const weightBody = range === 0 ? 0 : Number((body / range).toFixed(2)); // forca do corpo
         const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low; // é insideBar
         const isOutsideBar =
           c.high > prevCandle.high && c.low < prevCandle.close; // é outsideBar
@@ -78,12 +78,12 @@ export class EventsService {
           Number(c.low.toFixed(2)),
           Number(c.close.toFixed(2)),
           weightBody,
-          isBullish ? 1 : -1,
+          isBullish ? 1 : 0,
           // body,
-          isInsideBar ? 1 : -1,
-          isOutsideBar ? 1 : -1,
-          hasGapBulish ? 1 : -1,
-          hasGapBearish ? 1 : -1,
+          isInsideBar ? 1 : 0,
+          isOutsideBar ? 1 : 0,
+          hasGapBulish ? 1 : 0,
+          hasGapBearish ? 1 : 0,
           // ema
         ];
       }); // previsão
@@ -145,7 +145,7 @@ export class EventsService {
     const isBullish = c.close > c.open;
 
     // parametros al brooks
-    const weightBody = Number((body / range).toFixed(2)); // forca do corpo
+    const weightBody = range === 0 ? 0 : Number((body / range).toFixed(2)); // forca do corpo
     const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low; // é insideBar
     const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close; // é outsideBar
     const hasGapBulish = c.open > prevCandle.close; // tem gap de corpo de alta
@@ -159,11 +159,11 @@ export class EventsService {
           Number(c.low.toFixed(2)),
           Number(c.close.toFixed(2)),
           weightBody,
-          isBullish ? 1 : -1,
-          isInsideBar ? 1 : -1,
-          isOutsideBar ? 1 : -1,
-          hasGapBulish ? 1 : -1,
-          hasGapBearish ? 1 : -1,
+          isBullish ? 1 : 0,
+          isInsideBar ? 1 : 0,
+          isOutsideBar ? 1 : 0,
+          hasGapBulish ? 1 : 0,
+          hasGapBearish ? 1 : 0,
         ],
       ]),
     ) as tf.Tensor;
