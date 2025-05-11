@@ -207,10 +207,4 @@ export class EventsController {
      const tickers = await this.predictModel.distinct('ticker').lean();
     return res.json(tickers);
   }
-
-
-  @Get('processar')
-  async processar(@Req() req: Request, @Res() res: Response) {
-    await this.eventsService.processar();
-return res.json("feito")  }
 }
