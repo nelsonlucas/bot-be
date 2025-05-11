@@ -42,36 +42,26 @@ export class EventsService {
     candles: Array<Candle>;
     indexCurrentCandle: number;
   }) {
-
     await tf.setBackend('cpu');
-
-    // index 0 é o mesmo preco de mercado
-    if (indexCurrentCandle <= 1) {
+  
+    if (indexCurrentCandle <= 1 || indexCurrentCandle >= candles.length - 1) {
       return { close: candle.close, predictClose: candle.close };
     }
-
-    // Convert candles to inputs and labels
-
+  
     const inputs = candles
       .slice(0, indexCurrentCandle - 1)
       .map((c, index, array) => {
-        // candle anterior
         const prevCandle = array[index - 1] || c;
-
-        // parametros padroes
         const range = c.high - c.low;
         const body = Number(Math.abs(c.close - c.open).toFixed(2));
         const isBullish = c.close > c.open;
-
-        // parametros al brooks
-        const weightBody = range === 0 ? 0 : Number((body / range).toFixed(2)); // forca do corpo
-        const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low; // é insideBar
-        const isOutsideBar =
-          c.high > prevCandle.high && c.low < prevCandle.close; // é outsideBar
-        const hasGapBulish = c.open > prevCandle.close; // tem gap de corpo de alta
-        const hasGapBearish = c.open < prevCandle.close; // tem gap de corpo de baixa
-        // const ema = +(ema20.getResult()?.toFixed(2));
-
+  
+        const weightBody = range === 0 ? 0 : Number((body / range).toFixed(2));
+        const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low;
+        const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close;
+        const hasGapBulish = c.open > prevCandle.close;
+        const hasGapBearish = c.open < prevCandle.close;
+  
         return [
           Number(c.open.toFixed(2)),
           Number(c.high.toFixed(2)),
@@ -79,79 +69,50 @@ export class EventsService {
           Number(c.close.toFixed(2)),
           weightBody,
           isBullish ? 1 : 0,
-          // body,
           isInsideBar ? 1 : 0,
           isOutsideBar ? 1 : 0,
           hasGapBulish ? 1 : 0,
           hasGapBearish ? 1 : 0,
-          // ema
         ];
-      }); // previsão
-
-    // const labels = candles
-    //   .slice(0, indexCurrentCandle - 1)
-    //   .map((c) => {
-    //     const isBullish = c.close > c.open;
-    //     return [
-    //       c.close,
-    //       isBullish ? 1 : -1,
-    //     ]});
-    const labels = inputs.map((c: any) => [c?.[3], c?.[5]]);
-
+      });
+  
+    // Corrigido: prever o fechamento do próximo candle
+    const labels = candles
+      .slice(1, indexCurrentCandle)
+      .map((c) => [
+        Number(c.close.toFixed(2)),
+        c.close > c.open ? 1 : 0,
+      ]);
+  
     const inputTensor = tf.tensor2d(inputs);
     const labelTensor = tf.tensor2d(labels);
-
-    // Criando o modelo
+  
     const model = tf.sequential();
-
     const inputSize = inputs[0].length;
-
-    model.add(
-      tf.layers.dense({
-        inputShape: [inputSize],
-        units: 64,
-        activation: 'relu',
-      }),
-    );
-    model.add(
-      tf.layers.dense({
-        units: 128,
-        activation: 'relu',
-      }),
-    );
-
-    // model.add(tf.layers.batchNormalization());
-    // model.add(tf.layers.dropout({ rate: 0.3 }));
-
+  
+    model.add(tf.layers.dense({ inputShape: [inputSize], units: 64, activation: 'relu' }));
+    model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
     model.add(tf.layers.dense({ units: 32, activation: 'relu' }));
     model.add(tf.layers.dense({ units: labels[0].length }));
-
+  
     model.compile({ optimizer: 'adam', loss: 'meanSquaredError' });
-
-    // Treina o modelo
-    await model.fit(inputTensor, labelTensor, {
-      epochs: 100,
-      verbose: 0,
-    });
-
-    // Fazendo uma previsão
+  
+    await model.fit(inputTensor, labelTensor, { epochs: 100, verbose: 0 });
+  
+    // Previsão usando o candle atual
     const c = candles[indexCurrentCandle];
     const prevCandle = candles[indexCurrentCandle - 1];
-
-    // parametros padroes
-    // parametros padroes
+  
     const range = c.high - c.low;
     const body = Number(Math.abs(c.close - c.open).toFixed(2));
     const isBullish = c.close > c.open;
-
-    // parametros al brooks
-    const weightBody = range === 0 ? 0 : Number((body / range).toFixed(2)); // forca do corpo
-    const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low; // é insideBar
-    const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close; // é outsideBar
-    const hasGapBulish = c.open > prevCandle.close; // tem gap de corpo de alta
-    const hasGapBearish = c.open < prevCandle.close; // tem gap de corpo de baixa
-
-    const nextPrediction = model.predict(
+    const weightBody = range === 0 ? 0 : Number((body / range).toFixed(2));
+    const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low;
+    const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close;
+    const hasGapBulish = c.open > prevCandle.close;
+    const hasGapBearish = c.open < prevCandle.close;
+  
+    const prediction = model.predict(
       tf.tensor2d([
         [
           Number(c.open.toFixed(2)),
@@ -165,16 +126,14 @@ export class EventsService {
           hasGapBulish ? 1 : 0,
           hasGapBearish ? 1 : 0,
         ],
-      ]),
+      ])
     ) as tf.Tensor;
-
-    // (nextPrediction as tf.Tensor).print();
-
-    const predictValues: any = await nextPrediction.array();
-
+  
+    const predictValues: any = await prediction.array();
+  
     return {
       predictClose: predictValues?.[0]?.[0] || 0,
-      predictOperation: predictValues?.[0]?.[1] > 1 ? 'BUY' : 'SELL',
+      predictOperation: predictValues?.[0]?.[1] >= 0.5 ? 'BUY' : 'SELL',
     };
   }
 
