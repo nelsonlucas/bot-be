@@ -172,7 +172,7 @@ export class EventsController {
     const dataPredict = await this.predictModel
       .find({
         symbol,
-        // ...(startDate && endDate ? {date: { $gte: new Date(startDate as any), $lte: new Date(endDate as any) }}:{}),
+        ...(startDate && endDate ? {date: { $gte: new Date(startDate as any), $lte: new Date(endDate as any) }}:{}),
       })
       .sort({ date: 1 })
       .lean();
