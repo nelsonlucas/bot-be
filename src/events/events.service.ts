@@ -64,9 +64,9 @@ export class EventsService {
 
         return [
           Number(c.open.toFixed(2)),
-          Number(c.high.toFixed(2)),
-          Number(c.low.toFixed(2)),
-          Number(c.close.toFixed(2)),
+          // Number(c.high.toFixed(2)),
+          // Number(c.low.toFixed(2)),
+          // Number(c.close.toFixed(2)),
           weightBody,
           isBullish ? 1 : 0,
           isInsideBar ? 1 : 0,
@@ -119,9 +119,9 @@ export class EventsService {
       tf.tensor2d([
         [
           Number(c.open.toFixed(2)),
-          Number(c.high.toFixed(2)),
-          Number(c.low.toFixed(2)),
-          Number(c.close.toFixed(2)),
+          // Number(c.high.toFixed(2)),
+          // Number(c.low.toFixed(2)),
+          // Number(c.close.toFixed(2)),
           weightBody,
           isBullish ? 1 : 0,
           isInsideBar ? 1 : 0,
@@ -135,7 +135,7 @@ export class EventsService {
     const predictValues: any = await prediction.array();
 
     return {
-      predictClose: predictValues?.[0]?.[0] || 0,
+      predictClose: +(Number(predictValues?.[0]?.[0] || 0).toFixed(2)),
       predictOperation: predictValues?.[0]?.[1] >= 0.5 ? 'BUY' : 'SELL',
     };
   }

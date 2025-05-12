@@ -8,6 +8,8 @@ export class Predict {
     @Prop()
     symbol:string
     @Prop()
+    interval:string
+    @Prop()
     date:Date
     @Prop()
     open:number

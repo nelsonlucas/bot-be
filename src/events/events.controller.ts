@@ -24,92 +24,89 @@ export class EventsController {
   @Post('executePredict')
   async executePredict(@Req() req: Request, @Res() res: Response) {
     const { symbol, startDate, endDate, interval } = req?.body;
+     
+    // verificar se o ativo é B3 ou Crypto
+    const isB3 = /\d/gm.test(symbol);
 
-    let candles = [];
-    let executeLoop = true;
-    do {
-      candles = await this.candleModel
-        .find({
-          symbol,
-          date: { $gte: new Date(startDate), $lte: new Date(endDate) },
-        })
-        .sort({ date: 1 })
-        .lean();
+    // buscar binance
+    if (!isB3) {
+      const market = await this.eventsService.syncMarketBinance({
+        symbol,
+        ...(interval ? { interval } : { interval: '1d' }),
+        startTime: new Date(startDate).getTime(),
+        endTime: new Date(endDate).getTime(),
+      });
 
-      // verificar se o ativo é B3 ou Crypto
-      const isB3 = /\d/gm.test(symbol);
+      const allPromises = market.map((item) =>
+        this.candleModel.findOneAndUpdate(
+          {
+            symbol,
+            interval,
+            date: new Date(item[0]),
+          },
+          {
+            interval,
+            date: new Date(item[0]),
+            open: Number(item[1]),
+            high: Number(item[2]),
+            low: Number(item[3]),
+            close: Number(item[4]),
+            volume: Number(item[5]),
+          },
+          {
+            upsert: true,
+            new: true,
+          },
+        ),
+      );
 
-      // buscar binance
-      if (!isB3 && candles.length === 0) {
-        const market = await this.eventsService.syncMarketBinance({
-          symbol,
-          ...(interval ? { interval } : { interval: '1d' }),
-          startTime: new Date(startDate).getTime(),
-          endTime: new Date(endDate).getTime(),
-        });
+      await Promise.all(allPromises);
+    } else if (isB3) {
+      let market: any = await this.eventsService.getDataStock({
+        symbol,
+        period1: startDate,
+        period2: endDate,
+      });
 
-        const allPromises = market.map((item) =>
-          this.candleModel.findOneAndUpdate(
-            {
-              symbol,
-              interval,
-              date: new Date(item[0]),
-            },
-            {
-              interval,
-              date: new Date(item[0]),
-              open: item[1],
-              high: item[2],
-              low: item[3],
-              close: item[4],
-              volume: item[5],
-            },
-            {
-              upsert: true,
-              new: true,
-            },
-          ),
-        );
+      const allPromises = (market || []).map((item) =>
+        this.candleModel.findOneAndUpdate(
+          {
+            symbol,
+            interval: '1d',
+            date: item.date,
+          },
+          {
+            open: item.open,
+            high: item.high,
+            low: item.low,
+            close: item.close,
+            volume: item.volume,
+          },
+          {
+            upsert: true,
+            new: true,
+          },
+        ),
+      );
 
-        await Promise.all(allPromises);
-        executeLoop = false;
-      } else if (isB3 && candles.length === 0) {
-        let market: any = await this.eventsService.getDataStock({
-          symbol,
-          period1: startDate,
-          period2: endDate,
-        });
+      await Promise.all(allPromises);
+    } 
 
-        const allPromises = (market || []).map((item) =>
-          this.candleModel.findOneAndUpdate(
-            {
-              symbol,
-              ...(interval ? { interval } : { interval: '1d' }),
-              date: item.date,
-            },
-            {
-              open: item.open,
-              high: item.high,
-              low: item.low,
-              close: item.close,
-              volume: item.volume,
-            },
-            {
-              upsert: true,
-              new: true,
-            },
-          ),
-        );
-
-        await Promise.all(allPromises);
-        executeLoop = false;
-      } else {
-        executeLoop = false;
-      }
-    } while (executeLoop);
+    const candles = await this.candleModel
+    .find({
+      symbol,
+      interval,
+      date: { $gte: new Date(startDate), $lte: new Date(endDate) },
+    })
+    .sort({ date: 1 })
+    .lean();
 
     let body = [];
     for (const [index, candle] of candles.entries()) {
+
+
+      if(index <= 10) continue;
+
       // realiza a predicao dos precos de fechamento
       const predict: any = await this.eventsService.predict({
         indexCurrentCandle: index,
@@ -121,6 +118,7 @@ export class EventsController {
       const operation = predict?.predictOperation;
 
       body.push({
+        interval,
         symbol,
         date: candle?.date,
         open: candle.open,
@@ -144,6 +142,7 @@ export class EventsController {
           {
             symbol: item.symbol,
             date: {$eq: new Date(item?.date)},
+            interval: item.interval,
           },
           {
             open: item.open,
@@ -172,7 +171,8 @@ export class EventsController {
     const dataPredict = await this.predictModel
       .find({
         symbol,
-        ...(startDate && endDate ? {date: { $gte: new Date(startDate as any), $lte: new Date(endDate as any) }}:{}),
+        interval,
+        date: { $gte: daysjs(startDate as any).startOf('day'), $lte: daysjs(endDate as any).endOf('day') },
       })
       .sort({ date: 1 })
       .lean();
@@ -187,7 +187,7 @@ export class EventsController {
         lote:
           Object.keys(currentOperationIA).length > 0
             ? currentOperationIA.lote
-            : 100,
+            : 1,
         typeOperation: op.operation,
         price:
           Object.keys(currentOperationIA).length > 0 &&
