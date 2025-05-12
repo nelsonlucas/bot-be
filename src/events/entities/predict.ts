@@ -6,7 +6,7 @@ export type PredictDocument = HydratedDocument<Predict>;
 @Schema({ timestamps: true })
 export class Predict {
     @Prop()
-    ticker:string
+    symbol:string
     @Prop()
     date:Date
     @Prop()

@@ -43,11 +43,11 @@ export class EventsService {
     indexCurrentCandle: number;
   }) {
     await tf.setBackend('cpu');
-  
+
     if (indexCurrentCandle <= 1 || indexCurrentCandle >= candles.length - 1) {
       return { close: candle.close, predictClose: candle.close };
     }
-  
+
     const inputs = candles
       .slice(0, indexCurrentCandle - 1)
       .map((c, index, array) => {
@@ -55,13 +55,13 @@ export class EventsService {
         const range = c.high - c.low;
         const body = Number(Math.abs(c.close - c.open).toFixed(2));
         const isBullish = c.close > c.open;
-  
+
         const weightBody = range === 0 ? 0 : Number((body / range).toFixed(2));
         const isInsideBar = c.high < prevCandle.high && c.low > prevCandle.low;
         const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close;
         const hasGapBulish = c.open > prevCandle.close;
         const hasGapBearish = c.open < prevCandle.close;
-  
+
         return [
           Number(c.open.toFixed(2)),
           Number(c.high.toFixed(2)),
@@ -75,34 +75,37 @@ export class EventsService {
           hasGapBearish ? 1 : 0,
         ];
       });
-  
+
     // Corrigido: prever o fechamento do próximo candle
     const labels = candles
       .slice(1, indexCurrentCandle)
-      .map((c) => [
-        Number(c.close.toFixed(2)),
-        c.close > c.open ? 1 : 0,
-      ]);
-  
+      .map((c) => [Number(c.close.toFixed(2)), c.close > c.open ? 1 : 0]);
+
     const inputTensor = tf.tensor2d(inputs);
     const labelTensor = tf.tensor2d(labels);
-  
+
     const model = tf.sequential();
     const inputSize = inputs[0].length;
-  
-    model.add(tf.layers.dense({ inputShape: [inputSize], units: 64, activation: 'relu' }));
+
+    model.add(
+      tf.layers.dense({
+        inputShape: [inputSize],
+        units: 64,
+        activation: 'relu',
+      }),
+    );
     model.add(tf.layers.dense({ units: 128, activation: 'relu' }));
     model.add(tf.layers.dense({ units: 32, activation: 'relu' }));
     model.add(tf.layers.dense({ units: labels[0].length }));
-  
+
     model.compile({ optimizer: 'adam', loss: 'meanSquaredError' });
-  
+
     await model.fit(inputTensor, labelTensor, { epochs: 100, verbose: 0 });
-  
+
     // Previsão usando o candle atual
     const c = candles[indexCurrentCandle];
     const prevCandle = candles[indexCurrentCandle - 1];
-  
+
     const range = c.high - c.low;
     const body = Number(Math.abs(c.close - c.open).toFixed(2));
     const isBullish = c.close > c.open;
@@ -111,7 +114,7 @@ export class EventsService {
     const isOutsideBar = c.high > prevCandle.high && c.low < prevCandle.close;
     const hasGapBulish = c.open > prevCandle.close;
     const hasGapBearish = c.open < prevCandle.close;
-  
+
     const prediction = model.predict(
       tf.tensor2d([
         [
@@ -126,11 +129,11 @@ export class EventsService {
           hasGapBulish ? 1 : 0,
           hasGapBearish ? 1 : 0,
         ],
-      ])
+      ]),
     ) as tf.Tensor;
-  
+
     const predictValues: any = await prediction.array();
-  
+
     return {
       predictClose: predictValues?.[0]?.[0] || 0,
       predictOperation: predictValues?.[0]?.[1] >= 0.5 ? 'BUY' : 'SELL',
@@ -159,54 +162,24 @@ export class EventsService {
 
   async syncMarketBinance({
     symbol,
-    timeframe,
+    interval,
+    startTime,
+    endTime,
   }: {
     symbol?: string;
-    timeframe?: string;
+    interval?: string;
+    startTime?: number;
+    endTime?: number;
   }) {
-    let allSymbol = [symbol];
-    if (!symbol) {
-      const { data } = await binanceApi.get(`v3/exchangeInfo`);
-      allSymbol = data.symbols.map((item) => item.symbol);
-    }
-    const interval = timeframe ?? '1h';
-    for (const symbol of allSymbol || []) {
-      const { data: market } = await binanceApi.get(
-        `v3/klines?symbol=${symbol}&interval=${interval}&limit=999`,
-      );
-
-      const allPromises = market.map((item) =>
-        this.candleModel.findOneAndUpdate(
-          {
-            symbol,
-            timeframe: interval,
-            openTime: new Date(item[0]),
-          },
-          {
-            timeframe: interval,
-            openTime: new Date(item[0]),
-            open: item[1],
-            high: item[2],
-            low: item[3],
-            close: item[4],
-            volume: item[5],
-            closeTime: new Date(item[6]),
-            quoteAssetsVolume: item[7],
-            numberOfTrades: item[8],
-            takerBuyBaseVolume: item[9],
-            takerBuyQuoteVolume: item[10],
-            takerBuyQuoteAssetVolume: item[7],
-            ignore: item[11],
-          },
-          {
-            upsert: true,
-            new: true,
-          },
-        ),
-      );
-
-      await Promise.all(allPromises);
-    }
+    const { data: market } = await binanceApi.get(`v3/klines`, {
+      params: {
+        symbol,
+        interval,
+        startTime,
+        endTime,
+      },
+    });
+    return market;
   }
 
   async executeBackTest({ lote, typeOperation, price, currentOperation }) {
@@ -263,7 +236,13 @@ export class EventsService {
     return objCurrentOperation;
   }
 
-  async executeBackTest2({ lote, typeOperation, price, currentOperation }) {
+  async executeBackTest2({
+    date,
+    lote,
+    typeOperation,
+    price,
+    currentOperation,
+  }) {
     // Operação em aberto e do mesmo tipo: apenas lucro flutuante
     if (
       currentOperation.status === 'OPEN' &&
@@ -286,6 +265,7 @@ export class EventsService {
         lote,
         status: 'OPEN',
         totalOperation: +(price * lote).toFixed(2),
+        date,
       };
     }
 
@@ -295,7 +275,7 @@ export class EventsService {
       currentOperation.operationType !== typeOperation
     ) {
       const profit = +(
-        (currentOperation.operationType === 'SELL'
+        (currentOperation.operationType === 'BUY'
           ? price - currentOperation.openPrice
           : currentOperation.openPrice - price) * currentOperation.lote
       ).toFixed(2);
@@ -312,6 +292,4 @@ export class EventsService {
     // Caso nenhuma das condições seja atendida, retorne a operação atual
     return currentOperation;
   }
-
-  
 }

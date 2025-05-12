@@ -7,7 +7,7 @@ export class Candle {
   @Prop()
   symbol: string;
   @Prop()
-  timeframe: string;
+  interval: string;
   @Prop()
   date: Date;
   @Prop()
@@ -20,18 +20,6 @@ export class Candle {
   close: number;
   @Prop()
   volume: number;
-  @Prop()
-  closeTime: Date;
-  @Prop()
-  quoteAssetsVolume: string;
-  @Prop()
-  numberOfTrades: number;
-  @Prop()
-  takerBuyBaseVolume: number;
-  @Prop()
-  takerBuyQuoteVolume: number;
-  @Prop()
-  ignore: string;
 }
 
 export class Operation {

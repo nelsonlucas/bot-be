@@ -21,21 +21,95 @@ export class EventsController {
     private predictModel: Model<PredictDocument>,
   ) {}
 
-  @Post('predict')
-  async predict(@Req() req: Request, @Res() res: Response) {
-    let candles = await this.candleModel
-      .find({ symbol: req?.body?.symbol })
-      .sort({ date: 1 })
-      .lean();
-    // let candles: any = await this.eventsService.getDataStock({
-    //   symbol: req?.query?.symbol.toString(),
-    //   period1: req?.query?.startDate.toString(),
-    //   period2: req?.query?.endDate.toString(),
-    // });
+  @Post('executePredict')
+  async executePredict(@Req() req: Request, @Res() res: Response) {
+    const { symbol, startDate, endDate, interval } = req?.body;
+
+    let candles = [];
+    let executeLoop = true;
+    do {
+      candles = await this.candleModel
+        .find({
+          symbol,
+          date: { $gte: new Date(startDate), $lte: new Date(endDate) },
+        })
+        .sort({ date: 1 })
+        .lean();
+
+      // verificar se o ativo é B3 ou Crypto
+      const isB3 = /\d/gm.test(symbol);
+
+      // buscar binance
+      if (!isB3 && candles.length === 0) {
+        const market = await this.eventsService.syncMarketBinance({
+          symbol,
+          ...(interval ? { interval } : { interval: '1d' }),
+          startTime: new Date(startDate).getTime(),
+          endTime: new Date(endDate).getTime(),
+        });
+
+        const allPromises = market.map((item) =>
+          this.candleModel.findOneAndUpdate(
+            {
+              symbol,
+              interval,
+              date: new Date(item[0]),
+            },
+            {
+              interval,
+              date: new Date(item[0]),
+              open: item[1],
+              high: item[2],
+              low: item[3],
+              close: item[4],
+              volume: item[5],
+            },
+            {
+              upsert: true,
+              new: true,
+            },
+          ),
+        );
+
+        await Promise.all(allPromises);
+        executeLoop = false;
+      } else if (isB3 && candles.length === 0) {
+        let market: any = await this.eventsService.getDataStock({
+          symbol,
+          period1: startDate,
+          period2: endDate,
+        });
+
+        const allPromises = (market || []).map((item) =>
+          this.candleModel.findOneAndUpdate(
+            {
+              symbol,
+              ...(interval ? { interval } : { interval: '1d' }),
+              date: item.date,
+            },
+            {
+              open: item.open,
+              high: item.high,
+              low: item.low,
+              close: item.close,
+              volume: item.volume,
+            },
+            {
+              upsert: true,
+              new: true,
+            },
+          ),
+        );
+
+        await Promise.all(allPromises);
+        executeLoop = false;
+      } else {
+        executeLoop = false;
+      }
+    } while (executeLoop);
 
     let body = [];
     for (const [index, candle] of candles.entries()) {
-
       // realiza a predicao dos precos de fechamento
       const predict: any = await this.eventsService.predict({
         indexCurrentCandle: index,
@@ -47,8 +121,8 @@ export class EventsController {
       const operation = predict?.predictOperation;
 
       body.push({
-        ticker: req?.body?.symbol.toString(),
-        date:  candle?.date,
+        symbol,
+        date: candle?.date,
         open: candle.open,
         close: candle.close,
         predictClose,
@@ -63,97 +137,93 @@ export class EventsController {
     body = body.filter((x) => Math.abs((x.close - mean) / std) <= zLimit);
 
     // zerar as predicoes daquele ativo e salvar os novos resultado
-    await this.predictModel.deleteMany({ ticker: req?.query?.symbol });
-    body.map(async(item) =>
-      await this.predictModel.findOneAndUpdate(
-        {
-          ticker: item.ticker,
-          date: item?.date,
-        },
-        {
-          open: item.open,
-          close: item.close,
-          predictClose: item?.predictClose,
-          operation: item?.operation,
-        },
-        {
-          upsert: true,
-          new: true,
-        },
-      ),
+    await this.predictModel.deleteMany({ symbol });
+    body.map(
+      async (item) =>
+        await this.predictModel.findOneAndUpdate(
+          {
+            symbol: item.symbol,
+            date: {$eq: new Date(item?.date)},
+          },
+          {
+            open: item.open,
+            close: item.close,
+            predictClose: item?.predictClose,
+            operation: item?.operation,
+          },
+          {
+            upsert: true,
+            new: true,
+          },
+        ),
     );
 
-    
     return res.json({
-      success:true,msg: "Predictions saved"
+      success: true,
+      msg: 'Predictions saved',
     });
   }
 
   @Get('executeBackTest')
   async executeBackTest(@Req() req: Request, @Res() res: Response) {
+    const { symbol, startDate, endDate, interval } = req?.query;
 
     // buscar os dados de predicoes
-    const dataPredict = await this.predictModel.find({ ticker: req?.query?.symbol }).sort({ date: 1 }).lean();
-
+    const dataPredict = await this.predictModel
+      .find({
+        symbol,
+        // ...(startDate && endDate ? {date: { $gte: new Date(startDate as any), $lte: new Date(endDate as any) }}:{}),
+      })
+      .sort({ date: 1 })
+      .lean();
 
     let currentOperationIA: any = {};
-    let currentOperationMarket: any = {};
     const output = [];
     const historic = [];
-    for (const [index, op] of dataPredict.entries()) {
-      if (!op?.operation) {
-        continue;
-      }
-
+    for (const op of dataPredict.filter((e) => e?.operation) || []) {
       /* ANALISE DO LUCRO BASEADO NOS VALORES PREDICIONADOS */
-      const currentOperationIAtmp =  currentOperationIA;
       currentOperationIA = await this.eventsService.executeBackTest2({
-        lote: Object.keys(currentOperationIA).length > 0 ? currentOperationIA.lote : 100,
+        date: op.date,
+        lote:
+          Object.keys(currentOperationIA).length > 0
+            ? currentOperationIA.lote
+            : 100,
         typeOperation: op.operation,
         price:
-          Object.keys(currentOperationIA).length > 0 && currentOperationIA?.status === 'CLOSE'
-              ? +(+op.open.toFixed(2))
-              : +(+op.predictClose.toFixed(2)),
+          Object.keys(currentOperationIA).length > 0 &&
+          currentOperationIA?.status === 'CLOSE'
+            ? +(+op.open.toFixed(2))
+            : +(+op.predictClose.toFixed(2)),
         currentOperation: currentOperationIA,
       });
       /* ------------------------------------------------------------------------------------- */
 
-      /* ANALISE DO LUCRO BASEADO NOS VALORES DE MERCADO */
-      currentOperationMarket = await this.eventsService.executeBackTest2({
-        lote:
-          Object.keys(currentOperationMarket).length > 0
-            ? currentOperationMarket.lote
-            : 100,
-        typeOperation: op.operation,
-        price:
-          Object.keys(currentOperationMarket).length > 0 && currentOperationMarket?.status === 'CLOSE'
-              ? +(+op.open.toFixed(2))
-              : +(+op.close.toFixed(2)),
-        currentOperation: currentOperationMarket,
-      });
-      /* ------------------------------------------------------------------------------------- */
-
-      // if(currentOperationIA?.closePrice){
-        historic.push({
-          date: op.date,
-          profit: currentOperationIAtmp.profit,
-          isIA:true,
+      // limpar a memoria de ordens
+      if (currentOperationIA.status === 'CLOSE') {
+        output.push({
+          openOrderDate: currentOperationIA.date,
+          closeOrderDate: op.date,
+          open: currentOperationIA?.openPrice,
+          close: op.close,
+          closeIA: currentOperationIA?.closePrice,
+          profitIA: currentOperationIA?.profit || 0,
+          profitMarket: +(
+            (currentOperationIA?.operationType === `BUY`
+              ? op.close - op.open
+              : op.open - op.close) * currentOperationIA.lote
+          ).toFixed(2),
         });
-      // }
-
-      output.push({
-        LucroMarket: currentOperationMarket?.profit || 0,
-        LucroIA: currentOperationIA?.profit || 0,
-      });
+        currentOperationIA = {};
+      }
     }
 
     const calculated = output.reduce(
       (acc, item) => {
-        acc.LucroMarket += item.LucroMarket;
-        acc.LucroIA += item.LucroIA;
+        acc.profitMarket += item.profitMarket;
+        acc.profitIA += item.profitIA;
         return acc;
       },
-      { LucroMarket: 0, LucroIA: 0 },
+      { profitMarket: 0, profitIA: 0 },
     );
 
     const bodyOutput = {
@@ -161,8 +231,8 @@ export class EventsController {
       calculated,
       output,
       profits: {
-        lucroIA: output.flatMap((item) => [item.LucroIA]),
-        lucroMarket: output.flatMap((item) => [item.LucroMarket]),
+        profitIA: output.flatMap((item) => [item.profitIA]),
+        profitMarket: output.flatMap((item) => [item.profitMarket]),
       },
     };
 
@@ -180,9 +250,9 @@ export class EventsController {
     for (const candle of candles || []) {
       await this.candleModel.findOneAndUpdate(
         {
-         symbol: req?.body?.symbol.toString(),
-         timeframe: `D`,
-         date: candle.date,
+          symbol: req?.body?.symbol.toString(),
+          timeframe: `D`,
+          date: candle.date,
         },
         {
           open: candle.open,
@@ -202,9 +272,8 @@ export class EventsController {
 
   @Get('getTicker')
   async getTicker(@Req() req: Request, @Res() res: Response) {
-
     // buscar os codigos que foram feiros as predicoes
-     const tickers = await this.predictModel.distinct('ticker').lean();
+    const tickers = await this.predictModel.distinct('ticker').lean();
     return res.json(tickers);
   }
 }
